@@ -37,8 +37,10 @@ public class TwitterClient extends OAuthBaseClient {
 	
 	// getHomTimeLine
 	private static final String REST_TIMELINE_URL				= "statuses/home_timeline.json";
-	private static final String REST_TIMELINE_COUNT				= "200";
+	private static final String REST_TIMELINE_COUNT				= "20";
 	private static final String REST_TIMELINE_COUNT_KEY			= "count";
+	private static final String REST_TIMELINE_MAX_ID_KEY		= "max_id";
+	private static final String REST_TIMELINE_SINCE_ID_KEY		= "since_id";
 	
 	// tweet
 	private static final String REST_UPDATE_STATUS_URL			= "statuses/update.json";
@@ -50,12 +52,19 @@ public class TwitterClient extends OAuthBaseClient {
 	
 	/**
 	 * method to retrieve home timeline
-	 * @param handler - http handler that manages the connection
+	 * @param maxID		- Returns results with an ID less than (that is, older than) or equal to the specified ID. if it is null, then exclude
+	 * @param sinceID		- Returns results with an ID greater than (that is, more recent than) the specified ID. if it is null, then exclude
+	 * @param handler 	- http handler that manages the connection
 	 */
-	public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+	public void getHomeTimeline(String maxID, String sinceID, AsyncHttpResponseHandler handler) {
 		String apiURL = getApiUrl(REST_TIMELINE_URL);
 		RequestParams params	= new RequestParams();
 		params.put(REST_TIMELINE_COUNT_KEY, REST_TIMELINE_COUNT);
+		// if maxID is defined, then add the parameter
+		if (maxID != null) {
+			params.put(REST_TIMELINE_MAX_ID_KEY, maxID);
+		}
+		
 		client.get(apiURL, params, handler);
 	}
 	

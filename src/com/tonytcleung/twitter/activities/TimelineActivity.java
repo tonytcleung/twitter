@@ -13,10 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.tonytcleung.twitter.R;
 import com.tonytcleung.twitter.Adapters.TweetArrayAdapter;
+import com.tonytcleung.twitter.listeners.EndlessScrollListener;
 import com.tonytcleung.twitter.models.Tweet;
 import com.tonytcleung.twitter.models.TwitterApplication;
 import com.tonytcleung.twitter.models.TwitterClient;
@@ -24,15 +24,18 @@ import com.tonytcleung.twitter.models.User;
 
 public class TimelineActivity extends Activity {
 	
-	public static final int		COMPOSE_INTENT_REQUEST_CODE	= 20;
-	public static final String	INTENT_USER					= "USER";
-	public static final String	INTENT_TWEET				= "TWEET";
+	public static final int		COMPOSE_INTENT_REQUEST_CODE			= 20;
+	public static final String	INTENT_USER							= "USER";
+	public static final String	INTENT_TWEET						= "TWEET";
+
+	// number of cells that are not visible before kicking off server
+	private static final int 	ENDLESS_SCROLL_VISIBLE_THRESHHOLD	= 10;
 	
 	private TwitterClient 		client;
 	private User				user;
 	private ArrayList<Tweet>	tweets;
 	private ArrayAdapter<Tweet>	aTweets;
-	private ListView			lvTweets;
+	private ListView			lvTweets;	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +48,48 @@ public class TimelineActivity extends Activity {
 		aTweets		= new TweetArrayAdapter(this, tweets);
 		
 		lvTweets.setAdapter(aTweets);
+
+        // add on scroll listenter for endless scroll with threshhold
+		lvTweets.setOnScrollListener(new EndlessScrollListener(ENDLESS_SCROLL_VISIBLE_THRESHHOLD) {
+			@Override
+			public void onLoadMore(int page, int totalItemsCount) {
+				// get last tweet  
+				Tweet tweet = tweets.get(tweets.size() - 1);
+				
+				client.getHomeTimeline(String.valueOf(tweet.getUid()), null, new JsonHttpResponseHandler() {
+					
+					@Override
+					public void onSuccess(JSONArray json) {
+						ArrayList<Tweet> newTweets = Tweet.fromJSONArray(json);
+						 // remove the first item if it is duplicate
+						if (tweets.get(tweets.size()-1).getUid() == newTweets.get(0).getUid()) {
+							newTweets.remove(newTweets.get(0));
+							Log.d("Debug", newTweets.toString());
+						}
+						aTweets.addAll(newTweets);
+					}
+					
+					@Override
+					public void onFailure(Throwable error, String string) {
+						Log.d("debug", error.toString());
+						Log.d("debug", string.toString());
+					}
+				});
+			}
+		});
+		
 		getUserProfile();
 		populateTimeline();
 	}
-	
+
 	/**
 	 * populate the listview with the timeline
 	 */
 	public void populateTimeline() {
-		client.getHomeTimeline(new JsonHttpResponseHandler() {
+		client.getHomeTimeline(null, null, new JsonHttpResponseHandler() {
 			
 			@Override
 			public void onSuccess(JSONArray json) {
-				// TODO Auto-generated method stub
-				Log.d("debug", json.toString());
-				
 				aTweets.addAll(Tweet.fromJSONArray(json));
 			}
 			
@@ -79,8 +109,9 @@ public class TimelineActivity extends Activity {
 			@Override
 			public void onSuccess(JSONObject json) {
 				user = User.fromJSON(json);
+				TimelineActivity.this.getActionBar().setTitle("@" + user.getScreenName());
 			}
-			
+		
 			@Override
 			public void onFailure(Throwable error, String string) {
 				Log.d("debug", error.toString());

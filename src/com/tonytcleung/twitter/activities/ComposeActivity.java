@@ -5,6 +5,8 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,7 +41,7 @@ public class ComposeActivity extends Activity {
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_tweet, menu);
+		getMenuInflater().inflate(R.menu.menu_tweet, menu);
         return true;
     }
 	
@@ -51,6 +53,7 @@ public class ComposeActivity extends Activity {
 		tvComposeName		= (TextView) findViewById(R.id.tvComposeName);
 		tvComposeScreenName	= (TextView) findViewById(R.id.tvComposeScreenName);
 		etComposeMessage	= (EditText) findViewById(R.id.etComposeMessage);
+
 		
         Picasso.with(this).load(user.getProfileImageURL()).placeholder(R.drawable.ic_launcher).into(ivComposeProfile);
         tvComposeName.setText(user.getName());

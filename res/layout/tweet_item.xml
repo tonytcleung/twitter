@@ -8,14 +8,17 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
+      	android:paddingTop="10dp"
+      	android:paddingLeft="10dp"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/tweet_image_profile_description"
         android:src="@drawable/ic_launcher" />
-
     <TextView
         android:id="@+id/tvUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+      	android:paddingTop="10dp"
+      	android:paddingLeft="5dp" 
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivProfileImage"
         android:text="@string/user_name_placeholder" />
@@ -26,6 +29,20 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tvUserName"
         android:layout_below="@+id/tvUserName"
+      	android:paddingLeft="5dp"
+      	android:paddingRight="10dp"
+      	android:paddingBottom="10dp"
+    	android:autoLink="all"
+     	android:linksClickable="true"
         android:text="@string/tweet_body_placeholder" />
+
+    <TextView
+        android:id="@+id/tvCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+      	android:paddingRight="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/created_placeholder" />
 
 </RelativeLayout>

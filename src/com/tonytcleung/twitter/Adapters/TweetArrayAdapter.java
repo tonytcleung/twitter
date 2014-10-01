@@ -7,6 +7,7 @@ import com.tonytcleung.twitter.R;
 import com.tonytcleung.twitter.models.Tweet;
 
 import android.content.Context;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		ImageView ivProfileImage;
 		TextView tvUserName;
 		TextView tvBody;
+		TextView tvCreated;
 	}
 	
 	public TweetArrayAdapter(Context context, List<Tweet> tweets) {
@@ -42,6 +44,8 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder.ivProfileImage	= (ImageView) convertView.findViewById(R.id.ivProfileImage);
             viewHolder.tvUserName		= (TextView) convertView.findViewById(R.id.tvUserName);
             viewHolder.tvBody			= (TextView) convertView.findViewById(R.id.tvBody);
+            viewHolder.tvBody.setMovementMethod(LinkMovementMethod.getInstance());
+            viewHolder.tvCreated		= (TextView) convertView.findViewById(R.id.tvCreated);
             convertView.setTag(viewHolder);
         }
         // retrieve view holder from tag
@@ -52,6 +56,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         // Populate the data into the template view using the data object
         viewHolder.tvUserName.setText(tweet.getUser().getScreenName());
         viewHolder.tvBody.setText(tweet.getBody());
+        viewHolder.tvCreated.setText(tweet.getCreatedAt());
         // reset the image from the recycled view
         viewHolder.ivProfileImage.setImageResource(android.R.color.transparent);
         // ask for the photo to be added to the imageview based on the photo url

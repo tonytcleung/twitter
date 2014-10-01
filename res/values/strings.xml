@@ -11,9 +11,10 @@
     <string name="user_name_placeholder">\@foo</string>
     <string name="tweet_body_placeholder">This is the tweet body</string>
     <string name="title_compose_menu">Compose</string>
-    <string name="title_activity_compose">ComposeActivity</string>
+    <string name="title_activity_compose"></string>
     <string name="first_name_placeholder">First Name</string>
     <string name="compose_message_hint">What\'s happening?</string>
     <string name="title_submit_update_menu">TWEET</string>
+    <string name="created_placeholder">time</string>
 
 </resources>

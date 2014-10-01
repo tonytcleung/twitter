@@ -1,13 +1,17 @@
 package com.tonytcleung.twitter.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.net.ParseException;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.format.DateUtils;
 
 public class Tweet implements Parcelable {
 	private long				uid;
@@ -35,7 +39,7 @@ public class Tweet implements Parcelable {
 		try {
 			tweet.uid		= json.getLong(JSON_PARAM_UID);
 			tweet.body		= json.getString(JSON_PARAM_BODY);
-			tweet.createdAt	= json.getString(JSON_PARAM_CREATED_AT);
+			tweet.createdAt	= getRelativeTimeAgo(json.getString(JSON_PARAM_CREATED_AT));
 			tweet.user		= User.fromJSON(json.getJSONObject(JSON_PARAM_USER));
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -118,5 +122,24 @@ public class Tweet implements Parcelable {
     	user		= in.readParcelable(User.class.getClassLoader());
     }
 	
+ // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
+    public static String getRelativeTimeAgo(String rawJsonDate) {
+    	String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+    	SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+    	sf.setLenient(true);
+     
+    	String relativeDate = "";
+    	try {
+    		long dateMillis = sf.parse(rawJsonDate).getTime();
+    		relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
+    				System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+    	} catch (ParseException e) {
+    		e.printStackTrace();
+    	} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+     
+    	return relativeDate;
+    }
 }
 
