@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <ImageView
+        android:id="@+id/ivComposeProfile"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:paddingTop="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/tweet_image_profile_description"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tvComposeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ivComposeProfile"
+        android:paddingLeft="5dp"
+        android:text="@string/first_name_placeholder" />
+    
+    <TextView
+        android:id="@+id/tvComposeScreenName"
+        android:layout_width="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvComposeName"
+        android:layout_below="@+id/tvComposeName"
+        android:text="@string/user_name_placeholder" />
+
+    <EditText
+        android:id="@+id/etComposeMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ivComposeProfile"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:hint="@string/compose_message_hint" >
+
+        <requestFocus />
+    </EditText>
+</RelativeLayout>

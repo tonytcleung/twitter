@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Twitter</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_photos">Flickr Photos</string>
+    <string name="login_label">Connect to Twitter</string>
+    <string name="title_activity_timeline">TimelineActivity</string>
+    <string name="tweet_image_profile_description">Profile Image</string>
+    <string name="user_name_placeholder">\@foo</string>
+    <string name="tweet_body_placeholder">This is the tweet body</string>
+    <string name="title_compose_menu">Compose</string>
+    <string name="title_activity_compose">ComposeActivity</string>
+    <string name="first_name_placeholder">First Name</string>
+    <string name="compose_message_hint">What\'s happening?</string>
+    <string name="title_submit_update_menu">TWEET</string>
+
+</resources>
