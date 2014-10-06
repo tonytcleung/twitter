@@ -5,5 +5,5 @@
         android:title="@string/title_submit_update_menu"
         android:showAsAction="always"
         android:onClick="onSubmitUpdate"
-	/>     
+	/>  
 </menu>

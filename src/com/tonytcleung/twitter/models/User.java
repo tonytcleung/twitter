@@ -10,12 +10,19 @@ public class User implements Parcelable{
 	private long				uid;
 	private String 				name;
 	private String 				screenName;
+	private String				tagLine;
 	private String 				profileImageURL;
+	private int					followersCount;
+	private int					followingCount;
 	
 	private static final String JSON_PARAM_UID					= "id";
 	private static final String JSON_PARAM_NAME					= "name";
 	private static final String JSON_PARAM_SCREEN_NAME			= "screen_name";
-	private static final String JSON_PARAM__PROFILE_IMAGE_URL	= "profile_image_url";
+	private static final String JSON_PARAM_TAG_LINE				= "description";
+	private static final String JSON_PARAM_PROFILE_IMAGE_URL	= "profile_image_url";
+	private static final String JSON_PARAM_FOLLOWERS_COUNT		= "followers_count";
+	private static final String JSON_PARAM_FOLLOWING_COUNT		= "friends_count";
+	
 
 	public User() {
 		super();
@@ -32,13 +39,28 @@ public class User implements Parcelable{
 			user.uid				= json.getLong(JSON_PARAM_UID);
 			user.name				= json.getString(JSON_PARAM_NAME);
 			user.screenName			= json.getString(JSON_PARAM_SCREEN_NAME);
-			user.profileImageURL	= json.getString(JSON_PARAM__PROFILE_IMAGE_URL);
+			user.tagLine			= json.getString(JSON_PARAM_TAG_LINE);
+			user.profileImageURL	= json.getString(JSON_PARAM_PROFILE_IMAGE_URL);
+			user.followersCount		= json.getInt(JSON_PARAM_FOLLOWERS_COUNT);
+			user.followingCount		= json.getInt(JSON_PARAM_FOLLOWING_COUNT);
 		}
 		catch (JSONException e) {
 			e.printStackTrace();
 			return null;
 		}
 		return user;
+	}
+
+	public String getTagLine() {
+		return tagLine;
+	}
+
+	public int getFollowersCount() {
+		return followersCount;
+	}
+
+	public int getFollowingCount() {
+		return followingCount;
 	}
 
 	public long getUid() {
@@ -68,7 +90,10 @@ public class User implements Parcelable{
 		out.writeLong(uid);
 		out.writeString(name);
 		out.writeString(screenName);
+		out.writeString(tagLine);
 		out.writeString(profileImageURL);
+		out.writeInt(followersCount);
+		out.writeInt(followingCount);
 	}
 	
 	/**
@@ -94,6 +119,9 @@ public class User implements Parcelable{
     	uid				= in.readLong();
     	name			= in.readString();
     	screenName		= in.readString();
+    	tagLine			= in.readString();
     	profileImageURL	= in.readString();
+    	followersCount	= in.readInt();
+    	followingCount	= in.readInt();
     }
 }

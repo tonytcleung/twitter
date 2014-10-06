@@ -25,7 +25,7 @@
             android:value="1" />
 
         <activity
-            android:name="com.tonytcleung.twitter.activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,12 +44,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tonytcleung.twitter.activities.TimelineActivity"
+            android:name=".activities.TimelineActivity"
             android:label="@string/title_activity_timeline" >
         </activity>
         <activity
-            android:name="com.tonytcleung.twitter.activities.ComposeActivity"
+            android:name=".activities.ComposeActivity"
             android:label="@string/title_activity_compose" >
+        </activity>
+        <activity
+            android:name="com.tonytcleung.twitter.activities.ProfileActivity"
+            android:label="@string/title_activity_profile" >
         </activity>
     </application>
 

@@ -34,17 +34,27 @@ public class TwitterClient extends OAuthBaseClient {
 	private static final String REST_VERIFY_CRED_INCLUDE_ENTITIES_VALUE	= "false";
 	private static final String REST_VERIFY_CRED_SKIP_STATUS_KEY		= "skip_status";
 	private static final String REST_VERIFY_CRED_SKIP_STATUS_VALUE		= "true";
-	
+
 	// getHomTimeLine
 	private static final String REST_TIMELINE_URL				= "statuses/home_timeline.json";
 	private static final String REST_TIMELINE_COUNT				= "20";
-	private static final String REST_TIMELINE_COUNT_KEY			= "count";
-	private static final String REST_TIMELINE_MAX_ID_KEY		= "max_id";
-	private static final String REST_TIMELINE_SINCE_ID_KEY		= "since_id";
+
+	// getMentions
+	private static final String REST_MENTIONS_URL				= "statuses/mentions_timeline.json";
+	private static final String REST_MENTIONS_COUNT				= "20";
+	
+	// getUserTimeline
+	private static final String REST_USER_TIMELINE_URL			= "statuses/user_timeline.json";
+	private static final String REST_USER_TIMELINE_COUNT		= "20";
 	
 	// tweet
 	private static final String REST_UPDATE_STATUS_URL			= "statuses/update.json";
 	private static final String REST_UPDATE_STATUS_STATUS_KEY	= "status";
+	
+	// params
+	private static final String REST_PARAMS_COUNT_KEY			= "count";
+	private static final String REST_PARAMS_MAX_ID_KEY			= "max_id";
+	private static final String REST_PARAMS_SINCE_ID_KEY		= "since_id";
 
 	public TwitterClient(Context context) {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
@@ -53,19 +63,55 @@ public class TwitterClient extends OAuthBaseClient {
 	/**
 	 * method to retrieve home timeline
 	 * @param maxID		- Returns results with an ID less than (that is, older than) or equal to the specified ID. if it is null, then exclude
-	 * @param sinceID		- Returns results with an ID greater than (that is, more recent than) the specified ID. if it is null, then exclude
+	 * @param sinceID	- Returns results with an ID greater than (that is, more recent than) the specified ID. if it is null, then exclude
 	 * @param handler 	- http handler that manages the connection
 	 */
 	public void getHomeTimeline(String maxID, String sinceID, AsyncHttpResponseHandler handler) {
 		String apiURL = getApiUrl(REST_TIMELINE_URL);
 		RequestParams params	= new RequestParams();
-		params.put(REST_TIMELINE_COUNT_KEY, REST_TIMELINE_COUNT);
+		params.put(REST_PARAMS_COUNT_KEY, REST_TIMELINE_COUNT);
 		// if maxID is defined, then add the parameter
 		if (maxID != null) {
-			params.put(REST_TIMELINE_MAX_ID_KEY, maxID);
+			params.put(REST_PARAMS_MAX_ID_KEY, maxID);
 		}
 		
 		client.get(apiURL, params, handler);
+	}
+	
+	/**
+	 * method to retrieve mention timeline
+	 * @param maxID		- Returns results with an ID less than (that is, older than) or equal to the specified ID. if it is null, then exclude
+	 * @param sinceID	- Returns results with an ID greater than (that is, more recent than) the specified ID. if it is null, then exclude
+	 * @param handler 	- http handler that manages the connection
+	 */
+	public void getMentionsTimeline(String maxID, String sinceID, AsyncHttpResponseHandler handler) {
+		String apiURL = getApiUrl(REST_MENTIONS_URL);
+		RequestParams params	= new RequestParams();
+		params.put(REST_PARAMS_COUNT_KEY, REST_MENTIONS_COUNT);
+		// if maxID is defined, then add the parameter
+		if (maxID != null) {
+			params.put(REST_PARAMS_MAX_ID_KEY, maxID);
+		}
+		
+		client.get(apiURL, null, handler);
+	}
+	
+	/**
+	 * method to retrieve user timeline
+	 * @param maxID		- Returns results with an ID less than (that is, older than) or equal to the specified ID. if it is null, then exclude
+	 * @param sinceID	- Returns results with an ID greater than (that is, more recent than) the specified ID. if it is null, then exclude
+	 * @param handler 	- http handler that manages the connection
+	 */
+	public void getUserTimeline(String maxID, String sinceID, AsyncHttpResponseHandler handler) {
+		String apiURL = getApiUrl(REST_USER_TIMELINE_URL);
+		RequestParams params	= new RequestParams();
+		params.put(REST_PARAMS_COUNT_KEY, REST_USER_TIMELINE_COUNT);
+		// if maxID is defined, then add the parameter
+		if (maxID != null) {
+			params.put(REST_PARAMS_MAX_ID_KEY, maxID);
+		}
+		
+		client.get(apiURL, null, handler);
 	}
 	
 	/**

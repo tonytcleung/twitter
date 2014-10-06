@@ -13,8 +13,13 @@
     <string name="title_compose_menu">Compose</string>
     <string name="title_activity_compose"></string>
     <string name="first_name_placeholder">First Name</string>
+    <string name="tag_line_placeholder">Tagline</string>
     <string name="compose_message_hint">What\'s happening?</string>
     <string name="title_submit_update_menu">TWEET</string>
+    <string name="title_profile_menu">Profile</string>
     <string name="created_placeholder">time</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="profile_followers">5 Followers</string>
+    <string name="profile_following">5 Following</string>
 
 </resources>

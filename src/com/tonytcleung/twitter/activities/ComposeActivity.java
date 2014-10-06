@@ -2,11 +2,9 @@ package com.tonytcleung.twitter.activities;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +20,7 @@ import com.tonytcleung.twitter.models.TwitterApplication;
 import com.tonytcleung.twitter.models.TwitterClient;
 import com.tonytcleung.twitter.models.User;
 
-public class ComposeActivity extends Activity {
+public class ComposeActivity extends FragmentActivity {
 	private User		user;
 	private ImageView	ivComposeProfile;
 	private TextView	tvComposeName;
