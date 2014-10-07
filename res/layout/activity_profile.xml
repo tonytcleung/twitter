@@ -64,14 +64,16 @@
             android:layout_marginLeft="20dp"
             android:text="@string/profile_following"/>
     </LinearLayout>
-    
-    <fragment
-        android:id="@+id/fragmentUserTimeline"
-        android:name="com.tonytcleung.twitter.fragments.UserTimelineFragment"
+
+    <FrameLayout
+        android:id="@+id/flUserTimeline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/llCounts"
-        tools:layout="@layout/fragment_tweets_list" />
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/llCounts" >
+
+    </FrameLayout>
 
 </RelativeLayout>

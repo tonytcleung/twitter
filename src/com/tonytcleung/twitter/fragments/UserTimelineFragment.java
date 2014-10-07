@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 
 public class UserTimelineFragment extends TweetsListFragment {
 	
+	private static final String	ARGUMENT_USER	= "user";
 	private TwitterClient 		client;
 	public	User				user;
 	
@@ -25,9 +26,19 @@ public class UserTimelineFragment extends TweetsListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		user	= getArguments().getParcelable(ARGUMENT_USER);
 		client	= TwitterApplication.getRestClient();
 		populateTimeline();
-		
+	}
+	
+	public static UserTimelineFragment newInstance(User user) {
+		UserTimelineFragment userTimelineFragment	= new UserTimelineFragment();
+
+	    Bundle args 								= new Bundle();
+	    args.putParcelable(ARGUMENT_USER, user);
+	    userTimelineFragment.setArguments(args);
+
+	    return userTimelineFragment;
 	}
 	
 	@Override
@@ -40,12 +51,11 @@ public class UserTimelineFragment extends TweetsListFragment {
 	 * populate the listview with the timeline
 	 */
 	public void populateTimeline() {
-		String uid	= null;
-		if (null != user){
-			uid	= String.valueOf(user.getUid());
+		if (null == user){
+			return;
 		}
 		
-		client.getUserTimeline(uid, null, null, new JsonHttpResponseHandler() {
+		client.getUserTimeline(String.valueOf(user.getUid()), null, null, new JsonHttpResponseHandler() {
 			
 			@Override
 			public void onSuccess(JSONArray jsonArray) {

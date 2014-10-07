@@ -2,6 +2,7 @@ package com.tonytcleung.twitter.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,9 +24,14 @@ public class ProfileActivity extends FragmentActivity {
 		setContentView(R.layout.activity_profile);
 
 		user						= (User) getIntent().getParcelableExtra(TimelineActivity.INTENT_USER);
-		userTimelineFragment		= (UserTimelineFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentUserTimeline);
-		userTimelineFragment.user	= user;
-		userTimelineFragment.populateTimeline();
+		// Within the activity
+		FragmentTransaction transaction	= getSupportFragmentManager().beginTransaction();
+		UserTimelineFragment fragment = UserTimelineFragment.newInstance(user);
+		transaction.replace(R.id.flUserTimeline, fragment);
+		transaction.commit();
+//		userTimelineFragment		= (UserTimelineFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentUserTimeline);
+//		userTimelineFragment.user	= user;
+//		userTimelineFragment.populateTimeline();
 		populateProfileHeader();
 	}
 

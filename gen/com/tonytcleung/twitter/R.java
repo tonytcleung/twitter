@@ -36,7 +36,7 @@ public final class R {
         public static final int action_settings=0x7f080011;
         public static final int etComposeMessage=0x7f080003;
         public static final int flContainer=0x7f08000c;
-        public static final int fragmentUserTimeline=0x7f08000b;
+        public static final int flUserTimeline=0x7f08000b;
         public static final int ivComposeProfile=0x7f080000;
         public static final int ivProfileImage=0x7f080005;
         public static final int llCounts=0x7f080008;
