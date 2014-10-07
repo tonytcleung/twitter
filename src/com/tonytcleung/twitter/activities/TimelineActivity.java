@@ -1,8 +1,5 @@
 package com.tonytcleung.twitter.activities;
 
-import java.util.ArrayList;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
@@ -13,6 +10,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.tonytcleung.twitter.R;
@@ -25,12 +24,8 @@ import com.tonytcleung.twitter.models.User;
 
 public class TimelineActivity extends FragmentActivity {
 	
-	public static final int		COMPOSE_INTENT_REQUEST_CODE			= 20;
 	public static final String	INTENT_USER							= "USER";
 	public static final String	INTENT_TWEET						= "TWEET";
-
-	// number of cells that are not visible before kicking off server
-	private static final int 	ENDLESS_SCROLL_VISIBLE_THRESHHOLD	= 10;
 	
 	private User				user;	
 	private TwitterClient 		client;
@@ -93,19 +88,6 @@ public class TimelineActivity extends FragmentActivity {
 		});
 	}
 	
-    /**
-     * add the tweet to first item of the array
-     */
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    	// make sure that it is the same request code is the edit request code
-//    	if (resultCode == RESULT_OK && requestCode == COMPOSE_INTENT_REQUEST_CODE) {
-//    		// grab the settings and save
-//    		Tweet tweet		= intent.getParcelableExtra(INTENT_TWEET);
-//    		tweets.add(0, tweet);
-//    		aTweets.notifyDataSetChanged();
-//    	}
-    }
-	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -130,6 +112,14 @@ public class TimelineActivity extends FragmentActivity {
 		Intent intent			= new Intent(this,  ComposeActivity.class);
 		intent.putExtra(INTENT_USER	, user);
 		// launch the new activity asking for result
-		startActivityForResult(intent, COMPOSE_INTENT_REQUEST_CODE);
+		startActivity(intent);
     }
+	
+	public void onProfileClick(View view)
+	{
+		User selectedUser = (User) view.getTag();
+		Intent intent	= new Intent(this, ProfileActivity.class);
+		intent.putExtra(INTENT_USER	, selectedUser);
+		startActivity(intent);
+	}
 }

@@ -12,6 +12,7 @@
       	android:paddingLeft="10dp"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/tweet_image_profile_description"
+        android:onClick="onProfileClick"
         android:src="@drawable/ic_launcher" />
     <TextView
         android:id="@+id/tvUserName"

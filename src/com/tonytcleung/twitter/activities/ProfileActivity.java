@@ -7,12 +7,14 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tonytcleung.twitter.R;
+import com.tonytcleung.twitter.fragments.UserTimelineFragment;
 import com.tonytcleung.twitter.models.User;
 
 public class ProfileActivity extends FragmentActivity {
 
-	User		user;
-	ImageView	ivProfileImage;
+	User					user;
+	ImageView				ivProfileImage;
+	UserTimelineFragment	userTimelineFragment;
 
 	
 	@Override
@@ -20,7 +22,10 @@ public class ProfileActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 
-		user	= (User) getIntent().getParcelableExtra(TimelineActivity.INTENT_USER);
+		user						= (User) getIntent().getParcelableExtra(TimelineActivity.INTENT_USER);
+		userTimelineFragment		= (UserTimelineFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentUserTimeline);
+		userTimelineFragment.user	= user;
+		userTimelineFragment.populateTimeline();
 		populateProfileHeader();
 	}
 

@@ -22,11 +22,11 @@ import com.loopj.android.http.RequestParams;
  * 
  */
 public class TwitterClient extends OAuthBaseClient {
-	public static final Class<? extends Api> REST_API_CLASS 	= TwitterApi.class;
-	public static final String REST_URL 						= "https://api.twitter.com/1.1"; 
-	public static final String REST_CONSUMER_KEY 				= "INvy4sewirVM3P1zYVQwJtuCr";       
-	public static final String REST_CONSUMER_SECRET	 			= "w6YgyCcAdRtcNM6E83Rdq88a7yChveiuknO8nfygLxYTqVXYri"; 
-	public static final String REST_CALLBACK_URL 				= "oauth://cpbasictweets"; // Change this (here and in manifest)
+	public static final Class<? extends Api> REST_API_CLASS 			= TwitterApi.class;
+	public static final String REST_URL 								= "https://api.twitter.com/1.1"; 
+	public static final String REST_CONSUMER_KEY 						= "INvy4sewirVM3P1zYVQwJtuCr";       
+	public static final String REST_CONSUMER_SECRET	 					= "w6YgyCcAdRtcNM6E83Rdq88a7yChveiuknO8nfygLxYTqVXYri"; 
+	public static final String REST_CALLBACK_URL 						= "oauth://cpbasictweets"; // Change this (here and in manifest)
 	
 	// verify credentials
 	private static final String REST_VERIFY_CRED_URL					= "account/verify_credentials.json";
@@ -34,27 +34,32 @@ public class TwitterClient extends OAuthBaseClient {
 	private static final String REST_VERIFY_CRED_INCLUDE_ENTITIES_VALUE	= "false";
 	private static final String REST_VERIFY_CRED_SKIP_STATUS_KEY		= "skip_status";
 	private static final String REST_VERIFY_CRED_SKIP_STATUS_VALUE		= "true";
+	
+	// lookup user
+	private static final String REST_LOOKUP_USER_URL					= "users/lookup.json?";
+	
 
 	// getHomTimeLine
-	private static final String REST_TIMELINE_URL				= "statuses/home_timeline.json";
-	private static final String REST_TIMELINE_COUNT				= "20";
+	private static final String REST_TIMELINE_URL						= "statuses/home_timeline.json";
+	private static final String REST_TIMELINE_COUNT						= "20";
 
 	// getMentions
-	private static final String REST_MENTIONS_URL				= "statuses/mentions_timeline.json";
-	private static final String REST_MENTIONS_COUNT				= "20";
+	private static final String REST_MENTIONS_URL						= "statuses/mentions_timeline.json";
+	private static final String REST_MENTIONS_COUNT						= "20";
 	
 	// getUserTimeline
-	private static final String REST_USER_TIMELINE_URL			= "statuses/user_timeline.json";
-	private static final String REST_USER_TIMELINE_COUNT		= "20";
+	private static final String REST_USER_TIMELINE_URL					= "statuses/user_timeline.json";
+	private static final String REST_USER_TIMELINE_COUNT				= "20";
 	
 	// tweet
-	private static final String REST_UPDATE_STATUS_URL			= "statuses/update.json";
-	private static final String REST_UPDATE_STATUS_STATUS_KEY	= "status";
+	private static final String REST_UPDATE_STATUS_URL					= "statuses/update.json";
+	private static final String REST_UPDATE_STATUS_STATUS_KEY			= "status";
 	
 	// params
-	private static final String REST_PARAMS_COUNT_KEY			= "count";
-	private static final String REST_PARAMS_MAX_ID_KEY			= "max_id";
-	private static final String REST_PARAMS_SINCE_ID_KEY		= "since_id";
+	private static final String REST_PARAMS_COUNT_KEY					= "count";
+	private static final String REST_PARAMS_MAX_ID_KEY					= "max_id";
+	private static final String REST_PARAMS_SINCE_ID_KEY				= "since_id";
+	private static final String REST_PARAMS_USER_ID_KEY					= "user_id";
 
 	public TwitterClient(Context context) {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
@@ -93,7 +98,7 @@ public class TwitterClient extends OAuthBaseClient {
 			params.put(REST_PARAMS_MAX_ID_KEY, maxID);
 		}
 		
-		client.get(apiURL, null, handler);
+		client.get(apiURL, params, handler);
 	}
 	
 	/**
@@ -102,7 +107,7 @@ public class TwitterClient extends OAuthBaseClient {
 	 * @param sinceID	- Returns results with an ID greater than (that is, more recent than) the specified ID. if it is null, then exclude
 	 * @param handler 	- http handler that manages the connection
 	 */
-	public void getUserTimeline(String maxID, String sinceID, AsyncHttpResponseHandler handler) {
+	public void getUserTimeline(String userID, String maxID, String sinceID, AsyncHttpResponseHandler handler) {
 		String apiURL = getApiUrl(REST_USER_TIMELINE_URL);
 		RequestParams params	= new RequestParams();
 		params.put(REST_PARAMS_COUNT_KEY, REST_USER_TIMELINE_COUNT);
@@ -110,8 +115,11 @@ public class TwitterClient extends OAuthBaseClient {
 		if (maxID != null) {
 			params.put(REST_PARAMS_MAX_ID_KEY, maxID);
 		}
+		if (userID != null) {
+			params.put(REST_PARAMS_USER_ID_KEY, userID);
+		}
 		
-		client.get(apiURL, null, handler);
+		client.get(apiURL, params, handler);
 	}
 	
 	/**
@@ -123,6 +131,17 @@ public class TwitterClient extends OAuthBaseClient {
 		RequestParams params	= new RequestParams();
 		params.put(REST_VERIFY_CRED_INCLUDE_ENTITIES_KEY, REST_VERIFY_CRED_INCLUDE_ENTITIES_VALUE);
 		params.put(REST_VERIFY_CRED_SKIP_STATUS_KEY, REST_VERIFY_CRED_SKIP_STATUS_VALUE);
+		client.get(apiURL, params, handler);
+	}
+	
+	/**
+	 * method to get user profile by verifying credentials
+	 * @param handler - http handler that manages the connection
+	 */
+	public void lookupUser(String userID, AsyncHttpResponseHandler handler) {
+		String apiURL = getApiUrl(REST_LOOKUP_USER_URL);
+		RequestParams params	= new RequestParams();
+		params.put(REST_PARAMS_USER_ID_KEY, userID);
 		client.get(apiURL, params, handler);
 	}
 	

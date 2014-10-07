@@ -8,14 +8,18 @@ import com.tonytcleung.twitter.models.Tweet;
 
 import android.content.Context;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
+	
 	// view cache
 	private static class ViewHolder {
 		ImageView ivProfileImage;
@@ -41,18 +45,32 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         if (convertView == null) {
         	viewHolder					= new ViewHolder();
         	convertView 				= LayoutInflater.from(getContext()).inflate(R.layout.tweet_item, parent, false);
-            viewHolder.ivProfileImage	= (ImageView) convertView.findViewById(R.id.ivProfileImage);
             viewHolder.tvUserName		= (TextView) convertView.findViewById(R.id.tvUserName);
             viewHolder.tvBody			= (TextView) convertView.findViewById(R.id.tvBody);
             viewHolder.tvBody.setMovementMethod(LinkMovementMethod.getInstance());
             viewHolder.tvCreated		= (TextView) convertView.findViewById(R.id.tvCreated);
+            
+
+            viewHolder.ivProfileImage	= (ImageView) convertView.findViewById(R.id.ivProfileImage);
+//            viewHolder.ivProfileImage.setOnClickListener(new OnClickListener() {
+//				
+//				@Override
+//				public void onClick(View v) {
+//					// TODO Auto-generated method stub
+//					
+//				}
+//			})
+            
+            
             convertView.setTag(viewHolder);
         }
         // retrieve view holder from tag
         else {
         	viewHolder					= (ViewHolder) convertView.getTag();
         }
-			
+        
+        // set the ivProfileImage tag to the user
+        viewHolder.ivProfileImage.setTag(tweet.getUser());
         // Populate the data into the template view using the data object
         viewHolder.tvUserName.setText(tweet.getUser().getScreenName());
         viewHolder.tvBody.setText(tweet.getBody());
@@ -67,5 +85,4 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         // Return the completed view to render on screen
         return convertView;
 	}
-
 }

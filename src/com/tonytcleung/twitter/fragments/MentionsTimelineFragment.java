@@ -1,5 +1,7 @@
 package com.tonytcleung.twitter.fragments;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 
 import android.os.Bundle;
@@ -43,6 +45,34 @@ public class MentionsTimelineFragment extends TweetsListFragment {
 			@Override
 			public void onSuccess(JSONArray jsonArray) {
 				addAll(Tweet.fromJSONArray(jsonArray));
+			}
+			
+			@Override
+			public void onFailure(Throwable error, String string) {
+				Log.d("debug", error.toString());
+				Log.d("debug", string.toString());
+			}
+		});
+	}
+	
+	/**
+	 * load more tweets and append to array
+	 */
+	public void loadMore() {
+		// get last tweet  
+		Tweet tweet = tweets.get(tweets.size() - 1);
+		
+		client.getMentionsTimeline(String.valueOf(tweet.getUid()), null, new JsonHttpResponseHandler() {
+			
+			@Override
+			public void onSuccess(JSONArray json) {
+				ArrayList<Tweet> newTweets = Tweet.fromJSONArray(json);
+				 // remove the first item if it is duplicate
+				if (tweets.get(tweets.size()-1).getUid() == newTweets.get(0).getUid()) {
+					newTweets.remove(newTweets.get(0));
+					Log.d("Debug", newTweets.toString());
+				}
+				aTweets.addAll(newTweets);
 			}
 			
 			@Override
